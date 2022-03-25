@@ -14,6 +14,7 @@ const {
   getAllUser,
   getUserById,
   updateUser,
+  deleteById,
 } = require('../models/users');
 
 router.get('/', async(_req, res) => {
@@ -56,8 +57,15 @@ async (req, res) => {
   const upUser = await updateUser(id, objUser)
 
   return res.status(200).json(upUser);
-}
-)
+});
 
+router.delete('/:id',
+userNotFould,
+async (req, res) => {
+  const {id} = req.params;
+  const deleteUser = await deleteById(id);
+
+  return res.status(200).json(deleteUser);
+});
 
 module.exports = router;
