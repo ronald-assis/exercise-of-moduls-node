@@ -1,19 +1,33 @@
 const express = require('express');
+const router = express.Router();
 
 const {
   isRequiredFirstName,
   isRequiredLastName,
   isRequiredEmail,
   isRequiredPassword,
+  userNotFould,
 } = require('../middlewares/isValidUser');
 
-const { createUser, getAllUser } = require('../models/users');
-const router = express.Router();
+const { 
+  createUser,
+  getAllUser,
+  getUserById,
+} = require('../models/users');
 
 router.get('/', async(_req, res) => {
   const users = await getAllUser();
-
+  if (!users) return res.status(200).json([]);
   return res.status(200).json(users);
+});
+
+router.get('/:id',
+userNotFould,
+async (req, res) => {
+  const { id } = req.params;
+  const user = await getUserById(id);
+
+  return res.status(200).json(user);
 })
 
 router.post('/',

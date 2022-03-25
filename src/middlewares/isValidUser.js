@@ -1,10 +1,12 @@
-const getError = (messager) => ({messager});
+const { getUserById } = require('../models/users');
+const getError = (messager) => ({error: true, messager});
 
 const FIRST_NAME_ERROR = getError('First name is required');
 const LAST_NAME_ERROR = getError('Last name is required');
 const EMAIL_ERROR = getError('Email is required');
 const PASSWORD_ERROR = getError('Password is required');
 const PASSWORD_LENGTH_ERROR = getError('Password must be at least 6 characters long');
+const USER_NOT_FOULD = getError('User not fould');
 
 const isRequiredFirstName = (req, res, next) => {
   const {firstName} = req.body;
@@ -35,9 +37,18 @@ const isRequiredPassword = (req, res, next) => {
   next();
 };
 
+const userNotFould = async (req, res, next) => {
+  const {id} = req.params;
+  const user = await getUserById(id);
+  if (!user) return res.status(404).json(USER_NOT_FOULD);
+
+  next();
+}
+
 module.exports = {
   isRequiredFirstName,
   isRequiredLastName,
   isRequiredEmail,
   isRequiredPassword,
+  userNotFould,
 };
