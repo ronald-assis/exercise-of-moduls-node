@@ -13,6 +13,7 @@ const {
   createUser,
   getAllUser,
   getUserById,
+  updateUser,
 } = require('../models/users');
 
 router.get('/', async(_req, res) => {
@@ -39,7 +40,24 @@ async (req, res) => {
   const {firstName, lastName, email, password} = req.body
   const user = await createUser({firstName, lastName, email, password});
   
-  return res.status(200).json(user);
+  return res.status(201).json(user);
 });
+
+router.put('/:id',
+isRequiredFirstName,
+isRequiredLastName,
+isRequiredEmail,
+isRequiredPassword,
+userNotFould,
+async (req, res) => {
+  const {firstName, lastName, email, password} = req.body;
+  const {id} = req.params;
+  const objUser = {firstName, lastName, email, password};
+  const upUser = await updateUser(id, objUser)
+
+  return res.status(200).json(upUser);
+}
+)
+
 
 module.exports = router;
