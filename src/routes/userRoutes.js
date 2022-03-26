@@ -6,7 +6,7 @@ const {
   isRequiredLastName,
   isRequiredEmail,
   isRequiredPassword,
-  userNotFould,
+  userNotFound,
 } = require('../middlewares/isValidUser');
 
 const { 
@@ -24,7 +24,7 @@ router.get('/', async(_req, res) => {
 });
 
 router.get('/:id',
-userNotFould,
+userNotFound,
 async (req, res) => {
   const { id } = req.params;
   const user = await getUserById(id);
@@ -49,7 +49,7 @@ isRequiredFirstName,
 isRequiredLastName,
 isRequiredEmail,
 isRequiredPassword,
-userNotFould,
+userNotFound,
 async (req, res) => {
   const {firstName, lastName, email, password} = req.body;
   const {id} = req.params;
@@ -60,7 +60,7 @@ async (req, res) => {
 });
 
 router.delete('/:id',
-userNotFould,
+userNotFound,
 async (req, res) => {
   const {id} = req.params;
   const deleteUser = await deleteById(id);
